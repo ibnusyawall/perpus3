@@ -1,4 +1,4 @@
-@extends('../layouts.app')
+@extends('layouts.app')
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -7,6 +7,14 @@
                     Tambah Data Pegawai
                 </div>
                 <div class="card-body">
+                    @if(Count($errors) > 0)
+                        @foreach ($errors->all() as $pesan)
+                        <div class="alert alert-info" role="alert">
+                            {{ $pesan }}
+                          </div>
+                        @endforeach
+                    @endif
+
                     <form action="{{ route('pegawai.store') }}" method="POST">
                         {{ csrf_field() }}
                         <div class="form-group">
@@ -20,7 +28,7 @@
                         </div>
                         <div class="form-group">
                             <label for="jenis_kelamin">Jenis Kelamin</label>
-                            <select class="form-control" id="jenis_kelamin">
+                            <select class="form-control" name="jenis_kelamin" id="jenis_kelamin">
                                 <option values="Pria">Pria</option>
                                 <option values="Wanita">Wanita</option>
                             </select>

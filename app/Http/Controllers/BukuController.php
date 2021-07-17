@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Pegawai;
+use App\Buku;
 use Validator;
 use Alert;
 
-class PegawaiController extends Controller
+class BukuController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,8 @@ class PegawaiController extends Controller
      */
     public function index()
     {
-
-        $data = Pegawai::all();
-        return view('pegawai.index')->with(compact('data'));
+        $data = Buku::all();
+        return view('buku.index')->with(compact('data'));
     }
 
     /**
@@ -28,7 +27,7 @@ class PegawaiController extends Controller
      */
     public function create()
     {
-        return view('pegawai.tambah');
+        return view('buku.tambah');
     }
 
     /**
@@ -40,27 +39,25 @@ class PegawaiController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id_pegawai' => 'required|max:19',
-            'nama' => 'required|max:29',
-            'jenis_kelamin' => 'required'
+            'kode_buku' => 'required|max:30',
+            'judul' => 'required|max:30',
+            'pengarang' => 'required|max:30',
+            'penerbit' => 'required|max:30',
+            'jumlah' => 'required',
+            'tahun' => 'required'
         ]);
 
         if ($validator->fails()) {
-            toast('Isi semua field!','warning', 'top-right');
-            return redirect('pegawai/create')
-                ->withErrors($validator)
-                ->withInput();
+            toast('Gagal menyimpan data Buku', 'warning', 'top-right');
+            return redirect()->route('buku.create');
         }
 
-        $data  = new Pegawai();
+        $data  = new Buku();
         $hasil = $data->create($request->all());
 
         if ($hasil) {
-            toast('Data berhasil disimpan.','success', 'top-right');
-            return redirect()->route('pegawai.index');
-        } else {
-            toast('Data gagal disimpan','warning', 'top-right');
-            return redirect()->route('pegawai.index');
+            toast('Data berhasil dimasukan.', 'success', 'top-right');
+            return redirect()->route('buku.index');
         }
     }
 
@@ -83,8 +80,8 @@ class PegawaiController extends Controller
      */
     public function edit($id)
     {
-        $data = Pegawai::findOrFail($id);
-        return view('pegawai.edit')->with(compact('data'));
+        $data = Buku::findOrFail($id);
+        return view('buku.edit')->with(compact('data'));
     }
 
     /**
@@ -96,18 +93,30 @@ class PegawaiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // var_dump($_POST);
-        $data = Pegawai::findOrFail($id);
+        $validator = Validator::make($request->all(), [
+            'kode_buku' => 'required|max:30',
+            'judul' => 'required|max:30',
+            'pengarang' => 'required|max:30',
+            'penerbit' => 'required|max:30',
+            'jumlah' => 'required',
+            'tahun' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            toast('Gagal menyimpan data Buku', 'warning', 'top-right');
+            return redirect()->route('buku.index');
+        }
+
+        $data = Buku::findOrFail($id);
         $hasil = $data->update($request->all());
 
         if ($hasil) {
-            toast('Data berhasil diupdate.!','success', 'top-right');
-            return redirect()->route('pegawai.index');
+            toast('Data berhasil diupdate.', 'success', 'top-right');
+            return redirect()->route('buku.index');
         } else {
-            toast('Data gagal diupdate.!','warning', 'top-right');
-            return redirect()->route('pegawai.index');
+            toast('Data gagal diupdate.', 'warning', 'top-right');
+            return redirect()->route('buku.index');
         }
-
     }
 
     /**
@@ -118,11 +127,12 @@ class PegawaiController extends Controller
      */
     public function destroy($id)
     {
-        $data = Pegawai::findOrFail($id);
+        $data = Buku::findOrFail($id);
         $hasil = $data->delete();
+
         if ($hasil) {
-            toast('Data berhasil dihapus!','success', 'top-right');
-            return redirect()->route('pegawai.index');
+            toast('Data berhasil dihapus.', 'success', 'top-right');
+            return redirect()->route('buku.index');
         }
     }
 }

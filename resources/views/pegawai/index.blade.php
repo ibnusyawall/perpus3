@@ -1,4 +1,4 @@
-@extends('../layouts.app')
+@extends('layouts.app')
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -9,17 +9,23 @@
                     <button type="button" class="btn btn-success ml-6"><a href="{{ route('pegawai.create') }}" class="text-light">Tambah Pegawai</a></button>
                 </div>
                 <div class="card-body">
-                    <table class="table table-stripped">
-                        <tr>
+                    <table class="table table-stripped" id="myTable">
+                        <thead>
+                            <th>No</th>
                             <th>Id pegawai</th>
                             <th>Nama</th>
                             <th>Gender</th>
                             <th>NO HP</th>
                             <th>Alamat</th>
                             <th>Aksi</th>
-                        </tr>
+                        </thead>
+                        @php
+                            $index = 1;
+                        @endphp
+
                         @foreach ($data as $item)
-                            <tr>
+                            <tbody>
+                                <td>{{ $index++ }}</td>
                                 <td>{{ $item->id_pegawai }}</td>
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ $item->jenis_kelamin }}</td>
@@ -33,7 +39,7 @@
                                         <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
                                     </form>
                                 </td>
-                            </tr>
+                            </tbody>
                         @endforeach
                     </table>
                 </div>

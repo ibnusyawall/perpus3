@@ -19,3 +19,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/pegawai', 'PegawaiController');
+Route::resource('/buku', 'BukuController');

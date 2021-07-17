@@ -1,4 +1,4 @@
-@extends('../layouts.app')
+@extends('layouts.app')
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -16,7 +16,7 @@
                     </div>
                     <div class="form-group">
                         <label for="jenis_kelamin">Jenis Kelamin</label>
-                        <select class="form-control" id="jenis_kelamin">
+                        <select class="form-control" name="jenis_kelamin" id="jenis_kelamin">
                             <option {{ old('jenis_kelamin', $data->jenis_kelamin) == 'Pria' ? 'selected' : '' }}
                                 value="Pria">Pria</option>
                             <option {{ old('jenis_kelamin', $data->jenis_kelamin) == 'Wanita' ? 'selected' : '' }}
